@@ -1,0 +1,54 @@
+#include "Game.hpp"
+#include <cstdlib>
+
+
+Game::Game(int w, int h, int c) : snake(4) {
+    width = w;
+    height = h;
+    cellSize = c;
+    gameOver = false;
+    grid.resize(width, std::vector<Cell>(height));
+    applePosition = Game::randomApplePosition();
+}
+
+void Game::draw(sf::RenderWindow& window) { //passo riferimento a un oggetto di tipo sf::RenderWindow
+    sf::RectangleShape apple;
+    apple.setSize(sf::Vector2f(cellSize, cellSize));
+    apple.setFillColor(sf::Color::Red);
+    apple.setPosition(applePosition.x * cellSize, applePosition.y * cellSize);
+    
+    window.draw(apple);
+}
+
+void Game::update() {
+    if (gameOver) {
+        return;
+    }
+
+    if (snake.getPosition() == applePosition) {
+        snake.grow();
+        applePosition = randomApplePosition();
+    }
+}
+
+sf::Vector2i Game::randomApplePosition() {
+    std::vector<sf::Vector2i> freeCells = getFreeCells();
+
+    int rNum = rand() % freeCells.size();
+
+    return freeCells[rNum];
+}
+
+std::vector<sf::Vector2i> Game::getFreeCells() const {
+    std::vector<sf::Vector2i> freeCells;
+
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+            if (grid[i][j].type == EMPTY) {
+                freeCells.push_back(sf::Vector2i(i, j));
+            }
+        }
+    }
+
+    return freeCells;
+}
