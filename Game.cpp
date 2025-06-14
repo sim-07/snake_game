@@ -52,3 +52,24 @@ std::vector<sf::Vector2i> Game::getFreeCells() const {
 
     return freeCells;
 }
+
+void Game::handleInput(const sf::Event& event) {
+    if (event.type == sf::Event::KeyPressed) {
+        switch (event.key.code) {
+            case sf::Keyboard::Right:
+                snake.setDirection(Direction::Right);
+                break;
+            case sf::Keyboard::Left:
+                snake.setDirection(Direction::Left);
+                break;
+            case sf::Keyboard::Down:
+                snake.setDirection(Direction::Down);
+                break;
+            case sf::Keyboard::Up:
+                snake.setDirection(Direction::Up);
+                break;
+            default:
+                break;
+        }
+    }
+}
