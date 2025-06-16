@@ -1,2 +1,3 @@
 #!/bin/bash
-g++ main.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system
+g++ main.cpp Game.cpp Snake.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system
+

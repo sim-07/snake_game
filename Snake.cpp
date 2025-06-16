@@ -34,3 +34,8 @@ void Snake::setDirection(Direction dir) {
 
     direction = dir;
 }
+
+void Snake::grow() {
+    position.push_back(position.back());
+    length++;
+}

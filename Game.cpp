@@ -21,11 +21,13 @@ void Game::draw(sf::RenderWindow& window) { //passo riferimento a un oggetto di 
 }
 
 void Game::update() {
+    std::vector<sf::Vector2i> snakePos = snake.getPosition();
+
     if (gameOver) {
         return;
     }
 
-    if (snake.getPosition() == applePosition) {
+    if (snakePos[0] == applePosition) {
         snake.grow();
         applePosition = randomApplePosition();
     }
