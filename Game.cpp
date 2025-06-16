@@ -18,6 +18,25 @@ void Game::draw(sf::RenderWindow& window) { //passo riferimento a un oggetto di 
     apple.setPosition(applePosition.x * cellSize, applePosition.y * cellSize);
     
     window.draw(apple);
+
+    sf::RectangleShape snakeCell;
+    sf::RectangleShape head;
+    snakeCell.setSize(sf::Vector2f(cellSize, cellSize));
+    
+    std::vector<sf::Vector2i> snakePos = snake.getPosition();
+
+    for (sf::Vector2i& pos : snakePos) {
+
+        if (pos == snakePos.front()) {
+            snakeCell.setFillColor(sf::Color::Blue);
+        } else {
+            snakeCell.setFillColor(sf::Color::Green);
+        }
+
+        snakeCell.setPosition(pos.x * cellSize, pos.y * cellSize);
+        window.draw(snakeCell);
+    }
+
 }
 
 void Game::update() {

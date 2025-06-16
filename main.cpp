@@ -1,11 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
 #include "Game.hpp"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1024, 1024), "Snake Game");
-    Game game(8, 8, 128);
+    srand(static_cast<unsigned int>(time(nullptr)));
+    sf::RenderWindow window(sf::VideoMode(800, 800), "Snake Game");
+    Game game(16, 16, 50);
 
     while (window.isOpen()) {
         sf::Event event; // struttura che contiene un evento
