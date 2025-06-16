@@ -9,7 +9,9 @@ Game::Game(int w, int h, int c) : snake(4) {
     gameOver = false;
     grid.resize(width, std::vector<Cell>(height));
     applePosition = Game::randomApplePosition();
+    
 }
+
 
 void Game::draw(sf::RenderWindow& window) { //passo riferimento a un oggetto di tipo sf::RenderWindow
     sf::RectangleShape apple;
@@ -39,6 +41,8 @@ void Game::draw(sf::RenderWindow& window) { //passo riferimento a un oggetto di 
 
 }
 
+sf::Clock moveClock;
+float moveInterval = 0.15f;
 void Game::update() {
     std::vector<sf::Vector2i> snakePos = snake.getPosition();
 
@@ -49,6 +53,11 @@ void Game::update() {
     if (snakePos[0] == applePosition) {
         snake.grow();
         applePosition = randomApplePosition();
+    }
+
+    if (moveClock.getElapsedTime().asSeconds() >= moveInterval) {
+        snake.move();
+        moveClock.restart();
     }
 }
 

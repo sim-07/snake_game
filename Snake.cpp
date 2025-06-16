@@ -9,7 +9,7 @@ Snake::Snake(int l) {
 }
 
 std::vector<sf::Vector2i> Snake::getInitialPos() {
-    sf::Vector2i headStart(5, 5);
+    sf::Vector2i headStart(4, 1);
     std::vector<sf::Vector2i> pos;
 
     for (int i = 0; i < length; i++) {
@@ -24,7 +24,7 @@ std::vector<sf::Vector2i> Snake::getPosition() {
 }
 
 void Snake::setDirection(Direction dir) {
-    if ((direction == Direction::Up && dir == Direction::Down) ||
+    if ((direction == Direction::Up && dir == Direction::Down) || // il serpente non può fare cambi di direzione di 180°
         (direction == Direction::Down && dir == Direction::Up) ||
         (direction == Direction::Left && dir == Direction::Right) ||
         (direction == Direction::Right && dir == Direction::Left))
@@ -35,7 +35,32 @@ void Snake::setDirection(Direction dir) {
     direction = dir;
 }
 
+Direction Snake::getDirection() {
+    return direction;
+}
+
 void Snake::grow() {
     position.push_back(position.back());
     length++;
+}
+
+void Snake::move() {
+    switch (direction)
+    {
+    case Direction::Right:
+        position[0].x += 1;
+        break;
+    case Direction::Left:
+        position[0].x += -1;
+        break;
+    case Direction::Down:
+        position[0].y += 1;
+        break;
+    case Direction::Up:
+        position[0].y += -1;
+        break;
+    
+    default:
+        break;
+    }
 }
