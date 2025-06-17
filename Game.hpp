@@ -23,14 +23,12 @@ private:
     void spawnApple();
     bool checkCollision();
 
-
 public:
     Game(int width, int height, int cellSize);
-    void handleInput(const sf::Event& event);
+    void handleInput(const sf::Event &event);
     void update();
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow &window);
     bool isGameOver() const;
-
 };
 
 #endif
