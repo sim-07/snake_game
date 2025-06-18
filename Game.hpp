@@ -19,6 +19,9 @@ private:
     sf::Vector2i randomApplePosition();
     bool gameOver;
     std::vector<sf::Vector2i> getFreeCells() const;
+    float moveInterval;
+    bool press;
+    sf::Clock moveClock; 
 
     void spawnApple();
     bool checkCollision();

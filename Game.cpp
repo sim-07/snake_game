@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include <cstdlib>
+#include <iostream>
 
 Game::Game(int w, int h, int c) : snake(4)
 {
@@ -9,6 +10,9 @@ Game::Game(int w, int h, int c) : snake(4)
     gameOver = false;
     grid.resize(width, std::vector<Cell>(height));
     applePosition = Game::randomApplePosition();
+    sf::Clock moveClock; // inizia a contare appena Game viene costruito
+    moveInterval = 0.17f;
+    press = false;
 }
 
 void Game::draw(sf::RenderWindow &window)
@@ -43,14 +47,25 @@ void Game::draw(sf::RenderWindow &window)
     }
 }
 
-sf::Clock moveClock; // inizia a contare appena Game viene costruito
-float moveInterval = 0.15f;
 void Game::update()
 {
     std::vector<sf::Vector2i> snakePos = snake.getPosition();
 
     if (gameOver)
     {
+        return;
+    }
+
+    if (snakePos[0].x >= width || snakePos[0].y >= height || snakePos[0].x <= 0 || snakePos[0].y <= 0)
+    {
+        gameOver = true;
+        return;
+    }
+
+    if (grid[snakePos[0].x][snakePos[0].y].type == SNAKE)
+    {
+        std::cout << "Gameover serpente sbattuto contro se stesso";
+        gameOver = true;
         return;
     }
 
@@ -63,7 +78,23 @@ void Game::update()
     if (moveClock.getElapsedTime().asSeconds() >= moveInterval)
     {
         snake.move();
+        press = false;
         moveClock.restart();
+
+        for (int i = 0; i < width; ++i)
+        {
+            for (int j = 0; j < height; ++j)
+            {
+                grid[i][j].type = EMPTY;
+            }
+        }
+
+        for (const sf::Vector2i &pos : snakePos)
+        {
+            grid[pos.x][pos.y].type = SNAKE;
+        }
+
+        grid[applePosition.x][applePosition.y].type = APPLE;
     }
 }
 
@@ -96,8 +127,13 @@ std::vector<sf::Vector2i> Game::getFreeCells() const
 
 void Game::handleInput(const sf::Event &event)
 {
-    if (event.type == sf::Event::KeyPressed)
+    if (press)
     {
+        std::cout << "Errore tasti";
+    }
+    if (event.type == sf::Event::KeyPressed && !press)
+    {
+        press = true;
         switch (event.key.code)
         {
         case sf::Keyboard::Right:

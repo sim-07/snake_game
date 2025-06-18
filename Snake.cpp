@@ -1,4 +1,5 @@
 #include "Snake.hpp"
+#include <iostream>
 
 Snake::Snake(int l)
 {
@@ -16,6 +17,7 @@ std::vector<sf::Vector2i> Snake::getInitialPos()
     for (int i = 0; i < length; i++)
     {
         pos.push_back(sf::Vector2i(headStart.x - i, headStart.y));
+        
     }
 
     return pos;
@@ -28,7 +30,8 @@ std::vector<sf::Vector2i> Snake::getPosition()
 
 void Snake::setDirection(Direction dir)
 {
-    if ((direction == Direction::Up && dir == Direction::Down) || // il serpente non può fare cambi di direzione di 180°
+    // il serpente non può fare cambi di direzione di 180°
+    if ((direction == Direction::Up && dir == Direction::Down) || 
         (direction == Direction::Down && dir == Direction::Up) ||
         (direction == Direction::Left && dir == Direction::Right) ||
         (direction == Direction::Right && dir == Direction::Left))
@@ -55,6 +58,9 @@ void Snake::move()
 {
 
     std::vector<sf::Vector2i> tempPos = position;
+    
+
+    std::cout << "x: " << position[0].x << ", y: " << position[0].y << std::endl;
 
     for (int i = position.size(); i > 0; i--) {
         if (i >= 0) {
